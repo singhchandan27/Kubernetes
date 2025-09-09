@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dumbpad-deployment
+  namespace: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dumbpad
+  template:
+    metadata:
+      name : dumbpad-dep-pod
+      labels:
+        app: dumbpad
+    spec:
+      containers:
+        - name: dumbpad
+          image: dumbwareio/dumbpad:latest
+          ports:
+          - containerPort: 3000
+
+          volumeMounts:
+          - mountPath: /app/data
+            name: dumbpad-volume
+      volumes:
+        - name: dumbpad-volume
+          persistentVolumeClaim :
+            claimName: dumbpad-pvc
+
+
+

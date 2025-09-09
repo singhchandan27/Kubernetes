@@ -1,0 +1,37 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata :
+  name : nginx-notes-ingress
+  namespace : nginx
+  ## For rewriteing the rule
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec :
+  rules :
+  - http:
+      paths :
+      - pathType: Prefix
+        path: /nginx
+        backend :
+          service :
+            name : ngnix-service
+            port:
+              number : 80
+      # - pathType: Prefix
+      #   path : /
+      #   backend :
+      #     service:
+      #       name : notes-app-service
+      #       port :
+      #         number: 8000
+      - pathType: Prefix
+        path : /
+        backend :
+          service:
+            name : dumbpad-service
+            port :
+              number: 3000
+
+
+
+
