@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name:  admin-user
+  namespace : kubernetes-dashboard
+
+
+---
+
+kind : ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata :
+  name:  admin-user-binding
+  namespace : kubernetes-dashboard
+subjects :
+- kind: ServiceAccount
+  name : admin-user
+  namespace: kubernetes-dashboard
+
+  # apiGroup: rbac.authorization.k8s.io
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind : ClusterRole
+  name : cluster-admin
+
+
+# apiVersion: rbac.authorization.k8s.io/v1     # API version for RBAC resources
+# kind: ClusterRoleBinding                     # Grants a ClusterRole to a user, group, or service account (cluster-wide)
+# metadata:
+#   name: admin-user-binding                   # Name of this ClusterRoleBinding
+#   namespace: kubernetes-dashboard            # (⚠️ Not actually used by ClusterRoleBinding, since it’s cluster-wide)
+# subjects:
+#   - kind: ServiceAccount                     # Binding is for a ServiceAccount
+#     name: admin-user                         # Name of the ServiceAccount
+#     namespace: kubernetes-dashboard          # Namespace where the ServiceAccount lives (must be set here, not in metadata)
+#     # Note: `apiGroup` is NOT needed for ServiceAccounts
+# roleRef:
+#   apiGroup: rbac.authorization.k8s.io        # API group of the role
+#   kind: ClusterRole                          # Refers to a ClusterRole (cluster-wide role)
+#   name: cluster-admin                        # Name of the ClusterRole to bind (in this case, the built-in cluster-admin)
